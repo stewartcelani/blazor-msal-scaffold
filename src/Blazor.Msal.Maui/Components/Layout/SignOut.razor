@@ -1,0 +1,18 @@
+@using Blazor.Msal.Maui.Views
+
+<p>Signing out...</p>
+
+@code {
+    [Inject]
+    public INavigationService NavigationService { get; set; } = null!;
+
+    [Inject]
+    public IAuthenticationService AuthenticationService { get; set; } = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthenticationService.SignOutAsync();
+        await NavigationService.NavigateToAsync<UnauthenticatedView>();
+    }
+
+}

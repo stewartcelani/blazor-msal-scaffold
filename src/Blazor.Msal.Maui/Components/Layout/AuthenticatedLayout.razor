@@ -1,0 +1,35 @@
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <button @onclick="SignOutUser">Sign Out</button>
+        </div>
+
+        <article class="content px-4">
+            @ChildContent
+        </article>
+    </main>
+</div>
+
+@if (_showSignOutComponent)
+{
+    <SignOut />
+}
+
+  
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = null!;
+    
+    private bool _showSignOutComponent = false;
+
+    private void SignOutUser()
+    {
+        _showSignOutComponent = true;
+    }
+    
+}

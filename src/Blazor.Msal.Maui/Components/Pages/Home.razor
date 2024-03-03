@@ -1,0 +1,35 @@
+﻿@page "/"
+
+
+<PageTitle>Home</PageTitle>
+
+@if (_isAuthenticated && _user.Identity is not null)
+{
+    <h2>Hi, @_user.Identity.Name</h2>
+    
+    <pre>
+    @foreach (var claim in _user.Claims)
+    {
+        <p style="margin: 0;">@claim.Type: @claim.Value</p>
+    }
+    </pre>
+}
+else
+{
+    <p>Please log in.</p>
+}
+
+@code {
+    [Inject]
+    public required AuthenticationStateProvider AuthenticationStateProvider { get; init; }
+    
+    private ClaimsPrincipal _user = null!;
+    private bool _isAuthenticated = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _user = authState.User;
+        _isAuthenticated = _user.Identity is not null && _user.Identity.IsAuthenticated;
+    }
+}
